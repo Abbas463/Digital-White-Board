@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import *
 from tkinter.colorchooser import askcolor
 from tkinter import ttk
@@ -11,6 +12,23 @@ win.geometry('1050x570+150+50')
 win.config(bg='#f2f3f5')
 win.resizable(False, False)
 
+current_x = 0
+current_y = 0
+color = 'black'
+def locate_xy(work):
+    pass
+
+def addline(work):
+    pass
+
+def show_color(new_color):
+    global color
+    color = new_color
+
+def new_canvas():
+    canvas.delete('all')
+    display_pallete()
+
 image_icon = PhotoImage(file='logo.png')
 win.iconphoto(False, image_icon)
 
@@ -21,7 +39,7 @@ eraser = PhotoImage(file='eraser.png')
 Button(win, image=eraser, bg='#f2f3f5').place(x=30, y=400)
 
 importimage = PhotoImage(file='addimage.png')
-Button(win, image=importimage, bg='white').place(x=30, y=450)
+Button(win, image=importimage, bg='white', command=new_canvas).place(x=30, y=450)
 
 colors = Canvas(win, bg='#fff', width=37, height=300, bd=0)
 colors.place(x=30, y=60)
@@ -59,7 +77,21 @@ display_pallete()
 canvas = Canvas(win, width=930, height=500, background='white', cursor='hand2')
 canvas.place(x=100, y=10)
 
-slider = ttk.Scale(win, from_=1, to=100, orient='horizontal')
+canvas.bind('<Button-1>', locate_xy)
+canvas.bind('<B1-Motion>', addline)
+
+
+current_value = tk.DoubleVar()
+def get_current_value():
+    return '{: .2f}'.format(current_value.get())
+
+def slider_changed(event):
+    value_label.configure(text=get_current_value())
+
+slider = ttk.Scale(win, from_=1, to=100, orient='horizontal', command=slider_changed, variable=current_value)
 slider.place(x=30, y=530)
+
+value_label = ttk.Label(win, text=get_current_value())
+value_label.place(x=27, y=550)
 
 win.mainloop()
