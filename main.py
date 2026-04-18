@@ -16,10 +16,17 @@ current_x = 0
 current_y = 0
 color = 'black'
 def locate_xy(work):
-    pass
+    global current_x, current_y
+
+    current_x = work.x
+    current_y = work.y
 
 def addline(work):
-    pass
+    global current_x, current_y
+    canvas.create_line((current_x, current_y, work.x, work.y),
+                       fill=color, capstyle=ROUND, smooth=TRUE)
+    current_x, current_y = work.x, work.y
+
 
 def show_color(new_color):
     global color
