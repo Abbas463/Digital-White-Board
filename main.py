@@ -15,6 +15,7 @@ win.resizable(False, False)
 current_x = 0
 current_y = 0
 color = 'black'
+line_width = 1
 def locate_xy(work):
     global current_x, current_y
 
@@ -22,9 +23,9 @@ def locate_xy(work):
     current_y = work.y
 
 def addline(work):
-    global current_x, current_y
+    global current_x, current_y, line_width
     canvas.create_line((current_x, current_y, work.x, work.y),
-                       fill=color, capstyle=ROUND, smooth=TRUE)
+                       fill=color, width=line_width, capstyle=ROUND, smooth=TRUE)
     current_x, current_y = work.x, work.y
 
 
@@ -43,10 +44,10 @@ color_box = PhotoImage(file='color section.png')
 Label(win, image=color_box, bg='#f2f3f5').place(x=10, y=20)
 
 eraser = PhotoImage(file='eraser.png')
-Button(win, image=eraser, bg='#f2f3f5').place(x=30, y=400)
+Button(win, image=eraser, bg='#f2f3f5', command=new_canvas).place(x=30, y=400)
 
 importimage = PhotoImage(file='addimage.png')
-Button(win, image=importimage, bg='white', command=new_canvas).place(x=30, y=450)
+Button(win, image=importimage, bg='white').place(x=30, y=450)
 
 colors = Canvas(win, bg='#fff', width=37, height=300, bd=0)
 colors.place(x=30, y=60)
@@ -93,6 +94,8 @@ def get_current_value():
     return '{: .2f}'.format(current_value.get())
 
 def slider_changed(event):
+    global line_width
+    line_width = current_value.get()
     value_label.configure(text=get_current_value())
 
 slider = ttk.Scale(win, from_=1, to=100, orient='horizontal', command=slider_changed, variable=current_value)
